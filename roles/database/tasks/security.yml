@@ -1,0 +1,4 @@
+# install security configuration
+- name: enable MongoDB access
+  ufw: rule=allow port=27017
+  become: yes
