@@ -1,14 +1,22 @@
-[init_config]
-web_ip ansible_python_interpreter=/usr/bin/python3
-db_ip ansible_python_interpreter=/usr/bin/python3
+[web_servers]
+web-1 
 
-[common]
-web_ip ansible_python_interpreter=/usr/bin/python3
-db_ip ansible_python_interpreter=/usr/bin/python3
+[database_servers]
+db-1
 
-[webserver]
-web_ip ansible_python_interpreter=/usr/bin/python3
+[test:children]
+web_servers
 
-[database]
-db_ip ansible_python_interpreter=/usr/bin/python3
+[init_config:children]
+web_servers
+database_servers
 
+[common:children]
+web_servers
+database_servers
+
+[webserver:children]
+web_servers
+
+[database:children]
+database_servers

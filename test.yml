@@ -1,0 +1,6 @@
+# runs a test
+- name: run test
+  hosts: common
+  user: "{{ deploy_user }}"
+  roles:
+    - tests
