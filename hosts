@@ -1,22 +1,16 @@
-[web_servers]
-web-1 
+[test]
+web-1
 
-[database_servers]
+[init_config]
+web-1
 db-1
 
-[test:children]
-web_servers
+[common]
+web-1
+db-1
 
-[init_config:children]
-web_servers
-database_servers
+[webserver]
+web-1
 
-[common:children]
-web_servers
-database_servers
-
-[webserver:children]
-web_servers
-
-[database:children]
-database_servers
+[database]
+db-1

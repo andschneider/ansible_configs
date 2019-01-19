@@ -1,2 +1,3 @@
 # handles server protection and cofiguration 
 - include: security.yml
+- include: updates.yml
