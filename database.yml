@@ -1,0 +1,7 @@
+# configures a database server
+- name: apply database config to server
+  hosts: database
+  user: "{{ deploy_user }}"
+  roles: 
+    - common
+    - database

@@ -1,0 +1,82 @@
+# install MongoDB
+- name: add official MongoDB pulic GPG Key
+  apt_key: 
+    keyserver: keyserver.ubuntu.com
+    id: 9DA31620334BD75D9DCB49F368818C72E52529D4
+    state: present
+  become: yes
+
+- name: create file list for MongoDB
+  shell: echo "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.0.list
+  args:
+    creates: /etc/apt/sources.list.d/mongodb-org-4.0.list
+
+- name: install MongoDB package
+  apt: 
+    name: ["mongodb-org"]
+    update_cache: yes
+  become: yes
+
+- name: install pymongo
+  pip:
+    name: pymongo
+  become: yes
+
+# create ssl certificate
+- name: create self-signed certificate
+  shell: openssl req -newkey rsa:2048 -new -x509 -days 365 -nodes -out mongodb-cert.crt -keyout mongodb-cert.key -batch
+  args:
+    chdir: /etc/ssl/
+    creates: mongodb-cert.crt
+  become: yes
+
+- name: merge into a .pem
+  shell: cat mongodb-cert.key mongodb-cert.crt | sudo tee mongodb.pem >/dev/null
+  args:
+    chdir: /etc/ssl/
+    creates: mongodb.pem
+  become: yes
+
+- name: write mongod configuration
+  template: 
+    src: mongod.j2
+    dest: /etc/mongod.conf
+  notify:
+    - restart mongod
+  become: yes
+
+# create admin user and enable authentication
+- name: disable authentication to add the admin user
+  replace:
+    destfile: /etc/mongod.conf
+    regexp: "^  authorization: enabled"
+    replace: "  authorization: disabled"
+    backup: no
+  notify:
+    - restart mongod
+  become: yes
+
+- name: restart mongod
+  meta: flush_handlers
+
+- name: create admin user
+  mongodb_user:
+    database: admin
+    name: "{{ mongo_admin_user }}"
+    password: "{{ mongo_admin_password }}"
+    roles: clusterAdmin,readWriteAnyDatabase,userAdminAnyDatabase,dbAdminAnyDatabase
+    state: present
+    ssl: True
+    login_port: "{{ db_port }}"
+    ssl_cert_reqs: CERT_NONE
+
+- name: enable authentication
+  replace:
+    destfile: /etc/mongod.conf
+    regexp: "^  authorization: disabled"
+    replace: "  authorization: enabled"
+    backup: no
+  notify:
+    - restart mongod
+  become: yes
+
