@@ -1,0 +1,27 @@
+# install latest Vim from ppa
+- name: add latest Vim ppa
+  become: yes
+  apt_repository:
+    repo: ppa:jonathonf/vim
+
+- name: install latest Vim
+  become: yes
+  apt:
+    name: ["vim"]
+    update_cache: yes
+    state: latest
+
+- name: update all remaining packages
+  become: yes
+  apt:
+    upgrade: dist
+
+- name: copy colorschemes
+  copy: 
+    src: colors/
+    dest: ~/.vim/colors/
+
+- name: copy .vimrc
+  copy:
+    src: .vimrc
+    dest: ~/.vimrc
