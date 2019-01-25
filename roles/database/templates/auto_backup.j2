@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# configure path for aws
+PATH=/usr/bin:/usr/local/bin
+
+# MONGO SETTINGS
+UN={{ mongo_admin_user }}
+PW={{ mongo_admin_password }}
+DB={{ db_name }}
+PORT= {{ db_port }}
+
+# S3 SETTINGS
+BUCKET={{ bucket_name }}
+
+# BACKUP LOCATION
+DEST=~/backups/{{ app_name }}
+/bin/mkdir -p $DEST
+
+# CURRENT TIME
+TIME=`/bin/date +%Y-%m-%d`
+LOG_TIME=`/bin/date +%Y-%m-%d-%T`
+
+# backup file
+FILE=$DEST/${TIME}_${DB}.archive
+
+echo "[$LOG_TIME] Creating mongodump for $FILE"
+
+# create mongodump archive
+mongodump --db $DB --port $PORT --sslAllowInvalidCertificates --ssl -u $UN -p $PW --authenticationDatabase admin --archive=$FILE --gzip
+
+# upload to s3
+aws s3 mv $FILE s3://$BUCKET/
+
+echo "[$LOG_TIME] Backup succesful."

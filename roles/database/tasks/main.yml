@@ -1,3 +1,5 @@
 # handles server protection and cofiguration for database servers
 - include: security.yml
 - include: mongodb.yml
+- include: awscli.yml
+- include: backups.yml

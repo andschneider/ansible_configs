@@ -1,0 +1,21 @@
+# install aws cli
+- name: install aws 
+  pip:
+    name: awscli
+    state: latest
+
+# create credential and config files
+- name: make sure ~/.aws directory exists
+  file:
+    path: /home/{{ deploy_user }}/.aws
+    state: directory
+
+- name: write credential file
+  template:
+    src: aws_credentials.j2
+    dest: /home/{{ deploy_user }}/.aws/credentials
+
+- name: write config file
+  template:
+    src: aws_config.j2
+    dest: /home/{{ deploy_user }}/.aws/config
