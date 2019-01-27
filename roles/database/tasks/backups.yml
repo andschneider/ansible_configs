@@ -12,6 +12,7 @@
   template:
     src: auto_backup.j2
     dest: /home/{{ deploy_user }}/scripts/{{ app_name }}_backup.sh
+    mode: "u+x"
 
 # create a cron job
 - name: setup a cron job to run the backup script

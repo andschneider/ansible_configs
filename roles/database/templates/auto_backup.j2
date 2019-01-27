@@ -1,13 +1,13 @@
 #!/bin/bash
 
 # configure path for aws
-PATH=/usr/bin:/usr/local/bin
+PATH=/home/{{ deploy_user }}/.local/bin:/usr/local/bin
 
 # MONGO SETTINGS
 UN={{ mongo_admin_user }}
 PW={{ mongo_admin_password }}
 DB={{ db_name }}
-PORT= {{ db_port }}
+PORT={{ db_port }}
 
 # S3 SETTINGS
 BUCKET={{ bucket_name }}

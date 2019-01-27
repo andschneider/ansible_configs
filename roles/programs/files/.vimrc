@@ -14,7 +14,8 @@ set softtabstop=4       " number of spaces when tab is hit
 set expandtab           " tabs are spaces
 
 " Color Themes
-colorscheme molokai
+colorscheme gruvbox
+set background=dark
 
 " Editor niceness
 set number              " turn on line numbers
@@ -36,8 +37,11 @@ filetype indent on      " load filetype specific indent files
 set nrformats=
 
 " Create a mapping to help run Python scripts.
-map <F5> :w<CR>:!python3 %
+map <F5> :w<CR>:!python3 %<CR>
 " could also do :w <bar> :!python3 %
+
+" clear the shell output
+map <F6> :!clear<CR><CR>
 
 " Save 200 lines of command history.
 set history=200

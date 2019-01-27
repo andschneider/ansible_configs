@@ -1,0 +1,17 @@
+# create the python restore script
+# what good is a backup if you can't restore it?
+
+- name: install boto3
+  pip:
+    name: boto3
+    state: latest
+
+- name: copy restore python script
+  copy:
+    src: restore.py
+    dest: /home/{{ deploy_user }}/scripts/restore.py
+
+- name: write restore settings
+  template:
+    src: restore_settings.j2
+    dest: /home/{{ deploy_user }}/scripts/restore.ini
