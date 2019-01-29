@@ -1,3 +1,0 @@
-# simple ping for testing playbook
-- name: ping test
-  ping:

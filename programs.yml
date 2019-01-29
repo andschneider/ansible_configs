@@ -1,6 +1,0 @@
-# installs some programs
-- name: install and update some basic programs
-  hosts: database
-  user: "{{ deploy_user }}"
-  roles:
-    - programs
