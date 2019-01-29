@@ -1,0 +1,17 @@
+# installation for Python3.7 from deadsnakes ppa
+- name: Check Python version
+  shell: python3 --version | awk -F. '{print $2}'
+  register: python_minor
+
+- name: add ppa
+  become: yes
+  apt_repository:
+    repo: ppa:deadsnakes/ppa
+  when: python_minor.stdout != '7'
+
+- name: install python3.7
+  become: yes
+  apt:
+    name: ["python3.7", "python3.7-venv", "python3.7-dev"]
+    update_cache: yes
+    state: latest

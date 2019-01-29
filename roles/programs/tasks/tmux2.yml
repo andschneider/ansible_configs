@@ -1,0 +1,31 @@
+# install latest tmux and copy over configuration file
+- name: get latest tmux tarball
+  get_url:
+    url: https://github.com/tmux/tmux/releases/download/2.8/tmux-2.8.tar.gz
+    dest: /tmp/tmux-2.8.tar.gz
+
+- name: untar
+  unarchive: 
+    src: /tmp/tmux-2.8.tar.gz
+    dest: /tmp
+    
+- name: make
+  shell: cd /tmp/tmux-2.8; ./configure && make
+
+- name: install
+  become: yes
+  shell: cd /tmp/tmux-2.8; make install
+
+- name: cleanup
+  become: yes
+  file:
+    state: absent
+    path: "{{ item }}"
+  with_items:
+    - /tmp/tmux-2.8
+    - /tmp/tmux-2.8.tar.gz
+
+- name: copy .tmux.conf
+  copy:
+    src: .tmux.conf
+    dest: ~/.tmux.conf

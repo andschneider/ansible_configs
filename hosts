@@ -1,5 +1,5 @@
-[test]
-web-1
+[workstation]
+local
 
 [init_config]
 web-1

@@ -1,0 +1,5 @@
+# installs some programs
+- name: install and update some basic programs
+  hosts: workstation
+  roles:
+    - programs

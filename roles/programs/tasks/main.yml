@@ -1,2 +1,4 @@
 # installs, updates, and configures some basic programs
 - include: vim.yml
+- include: tmux2.yml
+- include: python37.yml
