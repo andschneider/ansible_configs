@@ -3,3 +3,4 @@
 - include: python37.yml
 - include: vim.yml
 - include: tmux2.yml
+- include: docker_ce.yml

@@ -84,8 +84,8 @@ let g:lightline = {
       \ }
 
 
-map <C-t> :NERDTreeToggle<CR>
-map <C-g> :GitGutterToggle<CR>
+map <silent> <C-t> :NERDTreeToggle<CR>
+map <silent> <C-g> :GitGutterToggle<CR>
 nmap <silent> [W <Plug>(ale_first)
 nmap <silent> [w <Plug>(ale_previous)
 nmap <silent> ]w <Plug>(ale_next)

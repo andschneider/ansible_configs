@@ -19,22 +19,22 @@
 - name: copy colorschemes
   copy:
     src: colors/
-    dest: ~/.vim/colors/
+    dest: /home/{{ user }}/.vim/colors/
 
 - name: copy .vimrc
   copy:
     src: .vimrc
-    dest: ~/.vimrc
+    dest: /home/{{ user }}/.vimrc
 
 - name: install Vundle
   git:
     repo: https://github.com/VundleVim/Vundle.vim.git
-    dest: ~/.vim/bundle/Vundle.vim
+    dest: /home/{{ user }}/.vim/bundle/Vundle.vim
 
 - name: install plugins
   command: vim +PluginInstall +qall
 
 - name: compile YouCompleteMe
-  command: python3 install.py --clang-completer
-    args:
-      chdir: cd ~/.vim/bundle/YouCompleteMe
+  command: python3.7 install.py --clang-completer
+  args:
+    chdir: /home/{{ user }}/.vim/bundle/youcompleteme

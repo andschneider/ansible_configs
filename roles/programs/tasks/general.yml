@@ -2,7 +2,7 @@
 - name: install packages
   become: yes
   apt:
-    name: ["git", "curl", "build-essential", "cmake"]
+    name: ["git", "curl", "build-essential", "cmake", "dconf-tools"]
     update_cache: yes
     state: latest
 
@@ -10,4 +10,7 @@
   become: yes
   apt:
     upgrade: dist
+
+- name: remap caps lock 
+  command: dconf write /org/gnome/desktop/input-sources/xkb-options "['ctrl:nocaps']"
 
