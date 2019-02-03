@@ -1,0 +1,13 @@
+# install general packages
+- name: install packages
+  become: yes
+  apt:
+    name: ["git", "curl", "build-essential", "cmake"]
+    update_cache: yes
+    state: latest
+
+- name: update all remaining packages
+  become: yes
+  apt:
+    upgrade: dist
+
