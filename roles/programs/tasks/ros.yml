@@ -1,0 +1,67 @@
+# Install gazebo 7, http://gazebosim.org/tutorials?tut=install_ubuntu&ver=7.0
+- name: add gazebo to sources
+  become: yes
+  shell: echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -sc) main" > /etc/apt/sources.list.d/gazebo-stable.list
+
+- name: add gazebo key
+  become: yes
+  apt_key:
+    url: http://packages.osrfoundation.org/gazebo.key
+
+- name: install gazebo7
+  become: yes
+  apt:
+    name: ["gazebo7", "libgazebo7-dev"]
+    update_cache: yes
+
+# Install ROS, http://wiki.ros.org/kinetic/Installation/Ubuntu
+- name: add ROS to sources
+  become: yes
+  shell: echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list
+
+- name: add keys
+  become: yes
+  apt_key:
+    keyserver: hkp://keyserver.ubuntu.com:80
+    id: 421C365BD9FF1F717815A3895523BAEEB01FA116
+
+- name: install ROS
+  become: yes
+  apt:
+    name: "{{ packages }}"
+    update_cache: yes
+  vars:
+    packages:
+      - ros-kinetic-desktop-full
+      - ros-kinetic-navigation
+      - ros-kinetic-roscpp
+      - ros-kinetic-joy
+      - ros-kinetic-kobuki-safety-controller
+      - ros-kinetic-yocs-velocity-smoother
+      - ros-kinetic-turtlebot-bringup
+      - ros-kinetic-geometry-msgs
+      - ros-kinetic-yocs-cmd-vel-mux
+      - ros-kinetic-diagnostic-aggregator
+      - ros-kinetic-depthimage-to-laserscan
+      - ros-kinetic-gazebo-ros
+      - ros-kinetic-kobuki-gazebo-plugins
+      - ros-kinetic-robot-pose-ekf
+      - ros-kinetic-robot-state-publisher
+      - ros-kinetic-turtlebot-description
+      - ros-kinetic-turtlebot-navigation
+      - ros-kinetic-xacro
+      - ros-kinetic-rtabmap-ros
+      - ros-kinetic-moveit
+      - "ros-kinetic-velocity-*"
+      - "ros-kinetic-effort-*"
+      - "ros-kinetic-joint-*"
+      - "ros-kinetic-gazebo-ros-*"
+      - "ros-kinetic-position-*"
+
+- name: initialize rosdep
+  become: yes
+  shell: |
+    rosdep init
+    rosdep update
+    echo "source /opt/ros/kinetic/setup.bash" >> ~/.bashrc
+

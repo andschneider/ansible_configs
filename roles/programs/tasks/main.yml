@@ -4,3 +4,4 @@
 - include: vim.yml
 - include: tmux2.yml
 - include: docker_ce.yml
+- include: ros.yml
