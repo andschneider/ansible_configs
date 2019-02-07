@@ -63,5 +63,7 @@
   shell: |
     rosdep init
     rosdep update
-    echo "source /opt/ros/kinetic/setup.bash" >> ~/.bashrc
+
+- name: setup environment
+  shell: echo source /opt/ros/kinetic/setup.bash >> ~/.bashrc
 
